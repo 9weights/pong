@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 3.10)
-project(Sadge)
+project(Pong)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-add_executable(sadge main.cpp)
+add_executable(Pong-gui main.cpp)
