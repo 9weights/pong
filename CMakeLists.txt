@@ -7,5 +7,6 @@ add_subdirectory(dependencies/raylib)
 # pong gui
 add_executable(Pong-gui main.cpp)
 target_link_libraries(Pong-gui PUBLIC raylib)
-target_include_directories(Pong-gui PUBLIC "${PROJECT_SOURCE_DIR}/dependencies/raylib")
+target_include_directories(Pong-gui 
+    PRIVATE "${PROJECT_SOURCE_DIR}/dependencies/raylib")
 
