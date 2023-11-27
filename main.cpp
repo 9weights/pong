@@ -17,7 +17,7 @@ const float g_deltaT{1};
 
 void calcHorzImpulse(Vector2& ballVelocity, Vector2 paddleVelocity)
 {
-    ballVelocity.y = paddleVelocity.y;
+    ballVelocity.y = (paddleVelocity.y - ballVelocity.y) / 2 + ballVelocity.y;
     ballVelocity.x = -ballVelocity.x;
 }
 void calcVertImpulse(Vector2& ballVelocity, Vector2 velocity)
@@ -73,7 +73,8 @@ void runNpcTurn(Rectangle& npc, const Rectangle& ball, Vector2& npcVelocity)
     bool isReset{};
     std::string nScore{};
     std::string pScore{};
-
+    bool playerWin{false};
+    bool npcWin{false};
 
 
     while (!WindowShouldClose())
@@ -135,18 +136,12 @@ void runNpcTurn(Rectangle& npc, const Rectangle& ball, Vector2& npcVelocity)
         calcPosition(ball, ballVelocity);
         if (playerScore > 3)
         {
-            break;
+            playerWin = true;
         }
         else if (npcScore > 3)
         {
-            break;
-        }
-
-
-        
-
-
-    
+            npcWin = true;
+        } 
         BeginDrawing();
             ClearBackground(BLACK);
             BeginMode2D(camera);
@@ -161,11 +156,23 @@ void runNpcTurn(Rectangle& npc, const Rectangle& ball, Vector2& npcVelocity)
             EndMode2D();
             pScore = "Player score: " + std::to_string(playerScore);
             nScore = "Npc score: " + std::to_string(npcScore);
-            DrawText(pScore, screenWidth/4, 10, 20 ,RED);
-            DrawText(nScore, screenWidth * 3.0/4.0, 10, 20 ,RED);
+            DrawText(pScore.c_str(), screenWidth/4, 10, 20 ,RED);
+            DrawText(nScore.c_str(), screenWidth * 3.0/4.0, 10, 20 ,RED);
         EndDrawing();
+    if (playerWin || npcWin)
+    {
+        while(!WindowShouldClose())
+        {
+        BeginDrawing();
+            ClearBackground(BLACK);
+            BeginMode2D(camera);
+            if (playerWin){DrawText("You win", screenWidth/3, 50, 100, RED);};
+            if (npcWin){DrawText("You lose", screenWidth/3, 50, 100, RED);}
+        EndDrawing();
+        }
+        break;
     }
-    
+    }
     CloseWindow();
     //Rectangle npc =
     // createGUI()
